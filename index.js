@@ -66,9 +66,15 @@ TextGeometry.prototype.update = function (opt) {
   // get common vertex data
   var positions = vertices.positions(glyphs)
   var uvs = vertices.uvs(glyphs, texWidth, texHeight, flipY)
- 
-   // update vertex data
-  buffer.attr(this, 'position', positions, 4)
+  var indices = createIndices({
+    clockwise: true,
+    type: 'uint16',
+    count: glyphs.length
+  })
+
+  // update vertex data
+  buffer.index(this, indices, 1, 'uint16')
+  buffer.attr(this, 'position', positions, 2)
   buffer.attr(this, 'uv', uvs, 2)
 
   // update multipage data
